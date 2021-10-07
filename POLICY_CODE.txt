@@ -1,0 +1,137 @@
+#This code goes into Cell 1.
+#Import Libraries
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#Containment and Health Index Dataframe
+df1 = pd.read_csv('containment_index.csv')
+average1=df1.groupby(by="Entity",axis=0).agg({'containment_index':"mean"})
+sort1=average1.sort_values(by="containment_index",ascending=True)
+
+#Schools Closures Dataframe
+df2 = pd.read_csv('school_closures.csv')
+average2=df2.groupby(by="Entity",axis=0).agg({'school_closures':"mean"})
+sort2=average2.sort_values(by="school_closures",ascending=True)
+
+#Workplaces Closures Dataframe
+df3 = pd.read_csv('workplace_closures.csv')
+average3=df3.groupby(by="Entity",axis=0).agg({'workplace_closures':"mean"})
+sort3=average3.sort_values(by="workplace_closures",ascending=True)
+
+#Cancellation of Public Events Dataframe
+df4 = pd.read_csv('cancel_public_events.csv')
+average4=df4.groupby(by="Entity",axis=0).agg({'cancel_public_events':"mean"})
+sort4=average4.sort_values(by="cancel_public_events",ascending=True)
+
+#Restrictions on Public Gatherings Dataframe
+df5 = pd.read_csv('restriction_gatherings.csv')
+average5=df5.groupby(by="Entity",axis=0).agg({'restriction_gatherings':"mean"})
+sort5=average5.sort_values(by="restriction_gatherings",ascending=True)
+
+#Stay-at-home Restrictions Dataframe
+df6 = pd.read_csv('stay_home_requirements.csv')
+average6=df6.groupby(by="Entity",axis=0).agg({'stay_home_requirements':"mean"})
+sort6=average6.sort_values(by="stay_home_requirements",ascending=True)
+
+#Face Coverings Dataframe
+df7 = pd.read_csv('facial_coverings.csv')
+average7=df7.groupby(by="Entity",axis=0).agg({'facial_coverings':"mean"})
+sort7=average7.sort_values(by="facial_coverings",ascending=True)
+
+#Public Information Campaigns Dataframe
+df8 = pd.read_csv('public_information_campaigns.csv')
+average8=df8.groupby(by="Entity",axis=0).agg({'public_information_campaigns':"mean"})
+sort8=average8.sort_values(by="public_information_campaigns",ascending=True)
+
+#Public Transport Dataframe
+df9 = pd.read_csv('close_public_transport.csv')
+average9=df9.groupby(by="Entity",axis=0).agg({'close_public_transport':"mean"})
+sort9=average9.sort_values(by="close_public_transport",ascending=True)
+
+#Restrictions on Internal Movement Dataframe
+df10 = pd.read_csv('restrictions_internal_movements.csv')
+average10=df10.groupby(by="Entity",axis=0).agg({'restrictions_internal_movements':"mean"})
+sort10=average10.sort_values(by="restrictions_internal_movements",ascending=True)
+
+#International Travel Controls Dataframe
+df11 = pd.read_csv('international_travel_controls.csv')
+average11=df11.groupby(by="Entity",axis=0).agg({'international_travel_controls':"mean"})
+sort11=average11.sort_values(by="international_travel_controls",ascending=True)
+
+#Testing Policy Dataframe
+df12 = pd.read_csv('testing_policy.csv')
+average12=df12.groupby(by="Entity",axis=0).agg({'testing_policy':"mean"})
+sort12=average12.sort_values(by="testing_policy",ascending=True)
+
+#Contact Tracing Dataframe
+df13 = pd.read_csv('contact_tracing.csv')
+average13=df13.groupby(by="Entity",axis=0).agg({'contact_tracing':"mean"})
+sort13=average13.sort_values(by="contact_tracing",ascending=True)
+
+#Vaccination Policy Dataframe
+df14 = pd.read_csv('vaccination_policy.csv')
+average14=df14.groupby(by="Entity",axis=0).agg({'vaccination_policy':"mean"})
+sort14=average14.sort_values(by="vaccination_policy",ascending=True)
+
+#---------------------------------------------------------------------------------------------------------
+#This code goes into Cell 2. 
+#Containment Index Frequency Histogram
+graph=plt.hist(sort1,color='#3e7dcc',edgecolor='#f9d84a', linewidth=3,align='mid')
+plt.title('Frequency of Containment Indices')
+plt.xlabel('Containment Indices')
+plt.ylabel('Number of Countries')
+plt.grid(color='#8f9cb3', linestyle='-')
+display(graph)
+
+#Concatenation of Fourteen Dataframes
+frames = [sort1,sort2,sort3,sort4,sort5,sort6,sort7,sort8,sort9,sort10,sort11,sort12,sort13,sort14]
+result = pd.concat(frames, axis=1)
+result
+
+#Creation of Heatmap Correlation Matrix
+fig, ax = plt.subplots(figsize=(10,6))
+sns.heatmap(result.corr(),center=0,annot=True)
+ax.set_title("Correlation Matrix of Fourteen International COVID-19 Metric Indices")
+
+#---------------------------------------------------------------------------------------------------------
+#This code goes into Cell 3. 
+#Violin Plot Showing Containment Index Statistics 
+#Box Plot Showing Containment Index Statistics 
+plt.title('Distribution of Containment Indices Around the World')
+ax4 = sns.violinplot(y='containment_index',data=sort1, color="yellow",alpha=1,marker="s")
+box=sort1.boxplot(column="containment_index",grid=True,color="green")
+ax4.set_xticklabels(['Violin Plot','Box Plot'])
+plt.xlabel('Distribution')
+plt.ylabel('Containment Indices')
+display(box)
+plt.show()
+
+#Swarm Plot Showing Distribution of Containment Indices
+ax5 = sns.swarmplot(y='containment_index',data=sort1, color="red",alpha=0.8)
+plt.title('Distribution of Containment Indices Around the World')
+plt.xlabel('Distribution')
+plt.ylabel('Containment Indices')
+ax5.set_xticklabels(['Swarm Plot'])
+plt.show()
+
+#---------------------------------------------------------------------------------------------------------
+#This code goes into Cell 4. 
+#Vertical Bar Graph for Countries with Five Highest and Five Lowest Containment Indices 
+bottom=sort1.head()
+top=sort1.tail()
+combine=[bottom,top]
+graph5=pd.concat(combine, axis=1)
+graph5.plot(kind='barh',legend=True)
+plt.legend(["Five Lowest Values","Five Highest Values"])
+plt.title('Countries with Highest and Lowest Containment Indices')
+plt.xlabel('Containment Indeces')
+plt.ylabel('Countries')
+
+#---------------------------------------------------------------------------------------------------------
+#This code goes into Cell 5. 
+#Display Containment Index Dataframe
+display(sort1)
+#Display Containment Index Dataframe Statistics
+display(sort1.describe())
